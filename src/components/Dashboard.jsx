@@ -1,11 +1,10 @@
-import { projectStats, pageStats } from '../utils/stats'
-import { StatusBadge } from './StatusDot'
+import { projectStats } from '../utils/stats'
 
 export default function Dashboard({ project }) {
   const stats = projectStats(project)
 
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-4">
+    <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 py-4">
       <div className="flex flex-wrap gap-3">
         <StatCard label="Pages" value={stats.pageCount} />
         <StatCard
@@ -14,16 +13,8 @@ export default function Dashboard({ project }) {
           sub={`${stats.totalPass} of ${stats.totalActive} active checks`}
           color={stats.pctPassed >= 90 ? 'green' : stats.pctPassed >= 60 ? 'amber' : 'red'}
         />
-        <StatCard
-          label="Failures"
-          value={stats.totalFail}
-          color={stats.totalFail === 0 ? 'green' : 'red'}
-        />
-        <StatCard
-          label="In progress"
-          value={stats.totalInProgress}
-          color={stats.totalInProgress > 0 ? 'amber' : 'default'}
-        />
+        <StatCard label="Failures" value={stats.totalFail} color={stats.totalFail === 0 ? 'green' : 'red'} />
+        <StatCard label="In progress" value={stats.totalInProgress} color={stats.totalInProgress > 0 ? 'amber' : 'default'} />
         <StatCard
           label="Pages clear"
           value={`${stats.pagesClear} / ${stats.pageCount}`}
@@ -35,13 +26,13 @@ export default function Dashboard({ project }) {
       {stats.pageCount > 0 && (
         <div className="mt-3">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs text-gray-500">Overall progress</span>
-            <span className="text-xs font-medium text-gray-700">{stats.pctPassed}%</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">Overall progress</span>
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{stats.pctPassed}%</span>
           </div>
-          <div className="h-2 bg-gray-100 rounded-full overflow-hidden w-full max-w-lg">
+          <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden w-full max-w-lg">
             <div
               className={`h-full rounded-full transition-all ${
-                stats.pctPassed >= 90 ? 'bg-green-500' : stats.pctPassed >= 60 ? 'bg-amber-400' : 'bg-red-400'
+                stats.pctPassed >= 90 ? 'bg-green-500' : stats.pctPassed >= 60 ? 'bg-amber-400' : 'bg-red-500'
               }`}
               style={{ width: `${stats.pctPassed}%` }}
             />
@@ -53,10 +44,10 @@ export default function Dashboard({ project }) {
 }
 
 const colorMap = {
-  green: 'text-green-700 bg-green-50',
-  red: 'text-red-700 bg-red-50',
-  amber: 'text-amber-700 bg-amber-50',
-  default: 'text-gray-700 bg-gray-50',
+  green: 'text-green-400 bg-green-900/20 dark:text-green-400 dark:bg-green-900/20',
+  red:   'text-red-400 bg-red-900/20 dark:text-red-400 dark:bg-red-900/20',
+  amber: 'text-amber-400 bg-amber-900/20 dark:text-amber-400 dark:bg-amber-900/20',
+  default: 'text-gray-300 dark:text-gray-400 bg-gray-100 dark:bg-gray-800',
 }
 
 function StatCard({ label, value, sub, color = 'default' }) {
